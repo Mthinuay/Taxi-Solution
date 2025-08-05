@@ -42,7 +42,7 @@ namespace Adingisa.Services
             var reply = new Reply
             {
                 Content = dto.Content,
-                // Add other properties as needed, e.g., UserID, PostID, if part of Reply model
+                
             };
             return await _repository.CreateAsync(reply);
         }

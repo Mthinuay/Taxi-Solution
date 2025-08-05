@@ -2,15 +2,16 @@ namespace Adingisa.Models;
 
 public class Reply
 {
-    public int ReplyID { get; set; }
+    public int ReplyId { get; set; }
     public string Content { get; set; } = null!;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-    public int UserID { get; set; }
+    public int UserId { get; set; }
     public User? User { get; set; }
 
-    public int PostID { get; set; }
+    public int PostId { get; set; }
     public Post? Post { get; set; }
 
-    public ICollection<Comment>? Comments { get; set; } = new List<Comment>();
+     public int CommentId { get; set; }
+    public Comment Comment { get; set; } = null!;
 }

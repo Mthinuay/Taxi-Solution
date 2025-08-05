@@ -45,7 +45,7 @@ namespace Adingisa.Services
             var users = await _repository.GetAllAsync();
             return users.Select(u => new UserDto
             {
-                UserID = u.UserID,
+                UserId = u.UserId,
                 Name = u.Name,
                 Email = u.Email,
                 RoleName = u.Role?.RoleName ?? "Unknown"
@@ -59,7 +59,7 @@ namespace Adingisa.Services
 
             return new UserDto
             {
-                UserID = user.UserID,
+                UserId = user.UserId,
                 Name = user.Name,
                 Email = user.Email,
                 RoleName = user.Role?.RoleName ?? "Unknown"
@@ -68,11 +68,20 @@ namespace Adingisa.Services
 
         public async Task<UserDto> CreateAsync(UserCreateDto dto)
         {
+            // Fetch all roles and find the default "User" role
+            var roles = await _repository.GetAllRolesAsync();
+            var defaultRole = roles.FirstOrDefault(r => r.RoleName == "User");
+
+            if (defaultRole == null)
+            {
+                throw new Exception("Default role 'User' not found in the database.");
+            }
+
             var user = new User
             {
                 Name = dto.Name,
                 Email = dto.Email,
-                RoleID = dto.RoleID
+                RoleId = defaultRole.RoleId // Auto-assign default role
             };
 
             user.PasswordHash = _passwordHasher.HashPassword(user, dto.Password);
@@ -81,7 +90,7 @@ namespace Adingisa.Services
 
             return new UserDto
             {
-                UserID = created.UserID,
+                UserId = created.UserId,
                 Name = created.Name,
                 Email = created.Email,
                 RoleName = created.Role?.RoleName ?? "Unknown"

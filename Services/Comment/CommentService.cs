@@ -28,8 +28,9 @@ namespace Adingisa.Services
             var comment = new Comment
             {
                 Content = dto.Content,
-                UserID = dto.UserID,
-                ReplyID = dto.ReplyID,
+                UserId = dto.UserId,
+                ReplyId = dto.ReplyId,
+                TaxiRouteId = dto.TaxiRouteId, 
                 CreatedAt = DateTime.UtcNow
             };
             return await _repository.AddAsync(comment);

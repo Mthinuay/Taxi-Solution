@@ -11,5 +11,9 @@ namespace Adingisa.Repositories
         Task<User> CreateAsync(User user);
         Task<bool> UpdateAsync(User user); // Changed from Task to Task<bool>
         Task<bool> DeleteAsync(int id);
+        Task<IEnumerable<Role>> GetAllRolesAsync();
+
+
+    
     }
 }

@@ -161,6 +161,7 @@ C:\Users\NMazibuko\Desktop\Adingisa\Adingisa\obj\Debug\net9.0\Adingisa.AssemblyI
 C:\Users\NMazibuko\Desktop\Adingisa\Adingisa\obj\Debug\net9.0\Adingisa.csproj.CoreCompileInputs.cache
 C:\Users\NMazibuko\Desktop\Adingisa\Adingisa\obj\Debug\net9.0\Adingisa.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\NMazibuko\Desktop\Adingisa\Adingisa\obj\Debug\net9.0\Adingisa.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\NMazibuko\Desktop\Adingisa\Adingisa\obj\Debug\net9.0\Adingisa.sourcelink.json
 C:\Users\NMazibuko\Desktop\Adingisa\Adingisa\obj\Debug\net9.0\scopedcss\bundle\Adingisa.styles.css
 C:\Users\NMazibuko\Desktop\Adingisa\Adingisa\obj\Debug\net9.0\staticwebassets.build.json
 C:\Users\NMazibuko\Desktop\Adingisa\Adingisa\obj\Debug\net9.0\staticwebassets.development.json

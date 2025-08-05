@@ -20,7 +20,7 @@ namespace Adingisa.Repositories
 
         public async Task<User?> GetByIdAsync(int id)
         {
-            return await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.UserID == id);
+            return await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.UserId == id);
         }
 
         public async Task<User> CreateAsync(User user)
@@ -32,7 +32,7 @@ namespace Adingisa.Repositories
 
         public async Task<bool> UpdateAsync(User user)
         {
-            var existing = await _context.Users.FindAsync(user.UserID);
+            var existing = await _context.Users.FindAsync(user.UserId);
             if (existing == null) return false;
 
             _context.Entry(existing).CurrentValues.SetValues(user);
@@ -48,6 +48,11 @@ namespace Adingisa.Repositories
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<IEnumerable<Role>> GetAllRolesAsync()
+        {
+            return await _context.Roles.ToListAsync();
         }
     }
 }

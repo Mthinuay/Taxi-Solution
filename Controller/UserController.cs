@@ -35,7 +35,7 @@ namespace Adingisa.Controllers
         public async Task<ActionResult<UserDto>> CreateUser(UserCreateDto dto)
         {
             var created = await _service.CreateAsync(dto);
-            return CreatedAtAction(nameof(GetUserById), new { id = created.UserID }, created);
+            return CreatedAtAction(nameof(GetUserById), new { id = created.UserId }, created);
         }
 
         [HttpPost("login")]

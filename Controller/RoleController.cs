@@ -44,7 +44,7 @@ namespace Adingisa.Controllers
             }
             var role = _mapper.Map<Role>(dto);
             var created = await _service.CreateAsync(role);
-            return CreatedAtAction(nameof(GetRoleById), new { id = created.RoleID }, created);
+            return CreatedAtAction(nameof(GetRoleById), new { id = created.RoleId }, created);
         }
 
         [Authorize(Roles = "Admin")]

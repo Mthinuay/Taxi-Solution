@@ -24,11 +24,11 @@ namespace Adingisa.Migrations
 
             modelBuilder.Entity("Adingisa.Models.Comment", b =>
                 {
-                    b.Property<int>("CommentID")
+                    b.Property<int>("CommentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentId"));
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -37,33 +37,36 @@ namespace Adingisa.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ReplyID")
+                    b.Property<int?>("ReplyId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ReplyID1")
+                    b.Property<int?>("ReplyId1")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserID")
+                    b.Property<int?>("TaxiRouteId")
                         .HasColumnType("int");
 
-                    b.HasKey("CommentID");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("ReplyID");
+                    b.HasKey("CommentId");
 
-                    b.HasIndex("ReplyID1");
+                    b.HasIndex("ReplyId1");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("TaxiRouteId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("Adingisa.Models.Post", b =>
                 {
-                    b.Property<int>("PostID")
+                    b.Property<int>("PostId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostId"));
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -72,23 +75,26 @@ namespace Adingisa.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserID")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("PostID");
+                    b.HasKey("PostId");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("Adingisa.Models.Reply", b =>
                 {
-                    b.Property<int>("ReplyID")
+                    b.Property<int>("ReplyId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReplyID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReplyId"));
+
+                    b.Property<int>("CommentId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -97,67 +103,69 @@ namespace Adingisa.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PostID")
+                    b.Property<int>("PostId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PostID1")
+                    b.Property<int?>("PostId1")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserID")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserID1")
+                    b.Property<int?>("UserId1")
                         .HasColumnType("int");
 
-                    b.HasKey("ReplyID");
+                    b.HasKey("ReplyId");
 
-                    b.HasIndex("PostID");
+                    b.HasIndex("CommentId");
 
-                    b.HasIndex("PostID1");
+                    b.HasIndex("PostId");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("PostId1");
 
-                    b.HasIndex("UserID1");
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Replies");
                 });
 
             modelBuilder.Entity("Adingisa.Models.Role", b =>
                 {
-                    b.Property<int>("RoleID")
+                    b.Property<int>("RoleId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleId"));
 
                     b.Property<string>("RoleName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("RoleID");
+                    b.HasKey("RoleId");
 
                     b.ToTable("Roles");
 
                     b.HasData(
                         new
                         {
-                            RoleID = 1,
+                            RoleId = 1,
                             RoleName = "Admin"
                         },
                         new
                         {
-                            RoleID = 2,
+                            RoleId = 2,
                             RoleName = "User"
                         });
                 });
 
             modelBuilder.Entity("Adingisa.Models.TaxiLocation", b =>
                 {
-                    b.Property<int>("TaxiLocationID")
+                    b.Property<int>("TaxiLocationId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TaxiLocationID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TaxiLocationId"));
 
                     b.Property<string>("GPSCoordinates")
                         .IsRequired()
@@ -167,44 +175,18 @@ namespace Adingisa.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("TaxiLocationID");
+                    b.HasKey("TaxiLocationId");
 
                     b.ToTable("TaxiLocations");
                 });
 
-            modelBuilder.Entity("Adingisa.Models.TaxiRoute", b =>
-                {
-                    b.Property<int>("TaxiRouteId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TaxiRouteId"));
-
-                    b.Property<string>("EndLocation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StartLocation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("TaxiLocationID")
-                        .HasColumnType("int");
-
-                    b.HasKey("TaxiRouteId");
-
-                    b.HasIndex("TaxiLocationID");
-
-                    b.ToTable("TaxiRoutes");
-                });
-
             modelBuilder.Entity("Adingisa.Models.User", b =>
                 {
-                    b.Property<int>("UserID")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -221,35 +203,61 @@ namespace Adingisa.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RoleID")
+                    b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.HasKey("UserID");
+                    b.HasKey("UserId");
 
-                    b.HasIndex("RoleID");
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("TaxiRoute", b =>
+                {
+                    b.Property<int>("TaxiRouteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TaxiRouteId"));
+
+                    b.Property<string>("EndLocation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StartLocation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TaxiLocationId")
+                        .HasColumnType("int");
+
+                    b.HasKey("TaxiRouteId");
+
+                    b.HasIndex("TaxiLocationId");
+
+                    b.ToTable("TaxiRoutes");
                 });
 
             modelBuilder.Entity("Adingisa.Models.Comment", b =>
                 {
                     b.HasOne("Adingisa.Models.Reply", "Reply")
                         .WithMany()
-                        .HasForeignKey("ReplyID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("ReplyId1");
 
-                    b.HasOne("Adingisa.Models.Reply", null)
+                    b.HasOne("TaxiRoute", "TaxiRoute")
                         .WithMany("Comments")
-                        .HasForeignKey("ReplyID1");
+                        .HasForeignKey("TaxiRouteId");
 
                     b.HasOne("Adingisa.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserID")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Reply");
+
+                    b.Navigation("TaxiRoute");
 
                     b.Navigation("User");
                 });
@@ -258,7 +266,7 @@ namespace Adingisa.Migrations
                 {
                     b.HasOne("Adingisa.Models.User", "User")
                         .WithMany("Posts")
-                        .HasForeignKey("UserID")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -267,57 +275,65 @@ namespace Adingisa.Migrations
 
             modelBuilder.Entity("Adingisa.Models.Reply", b =>
                 {
+                    b.HasOne("Adingisa.Models.Comment", "Comment")
+                        .WithMany("Replies")
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Adingisa.Models.Post", "Post")
                         .WithMany()
-                        .HasForeignKey("PostID")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Adingisa.Models.Post", null)
                         .WithMany("Replies")
-                        .HasForeignKey("PostID1");
+                        .HasForeignKey("PostId1");
 
                     b.HasOne("Adingisa.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserID")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Adingisa.Models.User", null)
                         .WithMany("Replies")
-                        .HasForeignKey("UserID1");
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("Comment");
 
                     b.Navigation("Post");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Adingisa.Models.TaxiRoute", b =>
-                {
-                    b.HasOne("Adingisa.Models.TaxiLocation", null)
-                        .WithMany("TaxiRoutes")
-                        .HasForeignKey("TaxiLocationID");
-                });
-
             modelBuilder.Entity("Adingisa.Models.User", b =>
                 {
                     b.HasOne("Adingisa.Models.Role", "Role")
                         .WithMany("Users")
-                        .HasForeignKey("RoleID")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("Adingisa.Models.Post", b =>
+            modelBuilder.Entity("TaxiRoute", b =>
+                {
+                    b.HasOne("Adingisa.Models.TaxiLocation", null)
+                        .WithMany("TaxiRoutes")
+                        .HasForeignKey("TaxiLocationId");
+                });
+
+            modelBuilder.Entity("Adingisa.Models.Comment", b =>
                 {
                     b.Navigation("Replies");
                 });
 
-            modelBuilder.Entity("Adingisa.Models.Reply", b =>
+            modelBuilder.Entity("Adingisa.Models.Post", b =>
                 {
-                    b.Navigation("Comments");
+                    b.Navigation("Replies");
                 });
 
             modelBuilder.Entity("Adingisa.Models.Role", b =>
@@ -335,6 +351,11 @@ namespace Adingisa.Migrations
                     b.Navigation("Posts");
 
                     b.Navigation("Replies");
+                });
+
+            modelBuilder.Entity("TaxiRoute", b =>
+                {
+                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }

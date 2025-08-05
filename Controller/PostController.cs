@@ -38,7 +38,7 @@ namespace Adingisa.Controllers
                 return BadRequest("Post data is required.");
             }
             var created = await _service.CreatePostAsync(dto);
-            return CreatedAtAction(nameof(GetPostById), new { id = created.PostID }, created);
+            return CreatedAtAction(nameof(GetPostById), new { id = created.PostId }, created);
         }
 
         [HttpDelete("{id}")]

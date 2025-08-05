@@ -1,11 +1,10 @@
-// Models/TaxiRoute.cs
-namespace Adingisa.Models
+using Adingisa.Models;
+public class TaxiRoute
 {
-    public class TaxiRoute
-    {
-        public int TaxiRouteId { get; set; }
-        public required string StartLocation { get; set; }
-        public required string EndLocation { get; set; }
+    public int TaxiRouteId { get; set; }
+    public string StartLocation { get; set; } = null!;
+    public string EndLocation { get; set; } = null!;
 
-    }
+    // NEW: Comments on this route
+    public ICollection<Comment>? Comments { get; set; }
 }

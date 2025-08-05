@@ -33,8 +33,8 @@ namespace Adingisa.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CommentCreateDto dto)
         {
-            var created = await _service.CreateAsync(dto);
-            return CreatedAtAction(nameof(GetById), new { id = created.CommentID }, created);
+            var createdComment = await _service.CreateAsync(dto);
+            return CreatedAtAction(nameof(GetById), new { id = createdComment.CommentId }, createdComment);
         }
 
         [HttpDelete("{id}")]

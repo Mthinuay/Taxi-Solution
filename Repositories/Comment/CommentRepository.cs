@@ -26,7 +26,7 @@ namespace Adingisa.Repositories
             return await _context.Comments
                 .Include(c => c.User)
                 .Include(c => c.Reply)
-                .FirstOrDefaultAsync(c => c.CommentID == id);
+                .FirstOrDefaultAsync(c => c.CommentId == id);
         }
 
         public async Task<Comment> AddAsync(Comment comment)
