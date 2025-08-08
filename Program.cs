@@ -32,6 +32,14 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<ITaxiRouteRepository, TaxiRouteRepository>();
 builder.Services.AddScoped<ITaxiRouteService, TaxiRouteService>();
+builder.Services.AddHttpClient<GoogleMapsService>();
+builder.Services.AddScoped<ITaxiLocationRepository, TaxiLocationRepository>();
+builder.Services.AddScoped<ITaxiLocationService, TaxiLocationService>();
+builder.Services.AddScoped<GoogleMapsService>();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddScoped<ITaxiLocationService, TaxiLocationService>();
+
+
 
 
 builder.Services.AddAuthentication("Bearer")

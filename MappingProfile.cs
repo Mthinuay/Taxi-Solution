@@ -14,7 +14,10 @@ namespace Adingisa
             CreateMap<CommentCreateDto, Comment>();
             CreateMap<RoleCreateDto, Role>();
             CreateMap<ReplyCreateDto, Reply>();
-            CreateMap<PostCreateDto, Post>(); // Added
+            CreateMap<PostCreateDto, Post>();
+            CreateMap<TaxiLocationCreateDto, TaxiLocation>();
+            CreateMap<TaxiLocationUpdateDto, TaxiLocation>();
+            CreateMap<TaxiLocation, TaxiLocationReadDto>();
         }
     }
 }
