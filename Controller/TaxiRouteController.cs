@@ -50,19 +50,27 @@ namespace Adingisa.Controllers
             return NoContent();
         }
 
-        [HttpGet("search")]
-        public async Task<IActionResult> SearchByDestination(string destination)
-        {
-            if (string.IsNullOrWhiteSpace(destination))
-                return BadRequest("Destination is required.");
+[HttpGet("search")]
+public async Task<IActionResult> Search([FromQuery] string destination, [FromQuery] string? startRank = null)
+{
+    if (string.IsNullOrWhiteSpace(destination))
+        return BadRequest("Please provide a destination.");
 
-            var route = await _service.SearchByDestinationAsync(destination);
+    var routes = await _service.SearchRoutesAsync(destination, startRank);
 
-            if (route == null)
-                return NotFound($"No taxi route found for {destination}.");
+    if (routes == null || !routes.Any())
+        return NotFound("No routes found for that criteria.");
 
-            return Ok(route);
-        }
+    return Ok(routes.Select(r => new
+    {
+        r.TaxiRouteId,
+        r.StartLocation,
+        r.EndLocation,
+        r.Fare,
+        r.PickupLocation
+    }));
+}
+
 
 
         [HttpDelete("{id}")]

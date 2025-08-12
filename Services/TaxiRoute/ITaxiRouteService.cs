@@ -11,5 +11,8 @@ namespace Adingisa.Services.Interfaces
         Task<bool> UpdateAsync(int id, TaxiRouteCreateDto dto);
         Task<bool> DeleteAsync(int id);
         Task<TaxiRouteResponseDto?> SearchByDestinationAsync(string destination);
+        Task<IEnumerable<TaxiRouteResponseDto>> SearchRoutesAsync(string destination);
+        Task<IEnumerable<TaxiRouteResponseDto>> SearchRoutesAsync(string destination, string? startRank = null);
+
     }
 }

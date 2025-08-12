@@ -47,9 +47,16 @@ namespace Adingisa.Repositories
             await _context.SaveChangesAsync();
         }
         public async Task<TaxiRoute?> FindAsync(Expression<Func<TaxiRoute, bool>> predicate)
-{
-    return await _context.TaxiRoutes.FirstOrDefaultAsync(predicate);
-}
+        {
+            return await _context.TaxiRoutes.FirstOrDefaultAsync(predicate);
+        }
+
+        public async Task<IEnumerable<TaxiRoute>> FindAllAsync(Expression<Func<TaxiRoute, bool>> predicate)
+        {
+            return await _context.TaxiRoutes
+                .Where(predicate)
+                .ToListAsync();
+        }
 
     }
 }

@@ -1,8 +1,11 @@
-// Services/TaxiRouteService.cs
 using Adingisa.Dtos;
 using Adingisa.Models;
 using Adingisa.Repositories.Interfaces;
 using Adingisa.Services.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Adingisa.Services
 {
@@ -22,7 +25,9 @@ namespace Adingisa.Services
             {
                 TaxiRouteId = r.TaxiRouteId,
                 StartLocation = r.StartLocation,
-                EndLocation = r.EndLocation
+                EndLocation = r.EndLocation,
+                Fare = r.Fare,
+                PickupLocation = r.PickupLocation
             });
         }
 
@@ -35,7 +40,9 @@ namespace Adingisa.Services
             {
                 TaxiRouteId = route.TaxiRouteId,
                 StartLocation = route.StartLocation,
-                EndLocation = route.EndLocation
+                EndLocation = route.EndLocation,
+                Fare = route.Fare,
+                PickupLocation = route.PickupLocation
             };
         }
 
@@ -44,7 +51,9 @@ namespace Adingisa.Services
             var route = new TaxiRoute
             {
                 StartLocation = dto.StartLocation,
-                EndLocation = dto.EndLocation
+                EndLocation = dto.EndLocation,
+                Fare = dto.Fare,
+                PickupLocation = dto.PickupLocation
             };
 
             await _repository.AddAsync(route);
@@ -54,26 +63,70 @@ namespace Adingisa.Services
             {
                 TaxiRouteId = route.TaxiRouteId,
                 StartLocation = route.StartLocation,
-                EndLocation = route.EndLocation
+                EndLocation = route.EndLocation,
+                Fare = route.Fare,
+                PickupLocation = route.PickupLocation
             };
         }
 
         public async Task<TaxiRouteResponseDto?> SearchByDestinationAsync(string destination)
-{
-    var route = await _repository
-        .FindAsync(r => r.EndLocation.ToLower() == destination.ToLower());
+        {
+            var route = await _repository.FindAsync(r => r.EndLocation.ToLower() == destination.ToLower());
 
-    if (route == null) return null;
+            if (route == null) return null;
 
-    return new TaxiRouteResponseDto
-    {
-        TaxiRouteId = route.TaxiRouteId,
-        StartLocation = route.StartLocation,
-        EndLocation = route.EndLocation,
-        Fare = route.Fare,
-        PickupLocation = route.PickupLocation
-    };
-}
+            return new TaxiRouteResponseDto
+            {
+                TaxiRouteId = route.TaxiRouteId,
+                StartLocation = route.StartLocation,
+                EndLocation = route.EndLocation,
+                Fare = route.Fare,
+                PickupLocation = route.PickupLocation
+            };
+        }
+
+        public async Task<IEnumerable<TaxiRouteResponseDto>> SearchRoutesAsync(string destination, string? startRank = null)
+        {
+            IEnumerable<TaxiRoute> routes;
+
+            if (string.IsNullOrWhiteSpace(startRank))
+            {
+                routes = await _repository.FindAllAsync(
+                    r => r.EndLocation.ToLower().Contains(destination.ToLower()) ||
+                         r.StartLocation.ToLower().Contains(destination.ToLower()));
+            }
+            else
+            {
+                routes = await _repository.FindAllAsync(
+                    r => r.EndLocation.ToLower().Contains(destination.ToLower()) &&
+                         r.StartLocation.ToLower().Contains(startRank.ToLower()));
+            }
+
+            return routes.Select(r => new TaxiRouteResponseDto
+            {
+                TaxiRouteId = r.TaxiRouteId,
+                StartLocation = r.StartLocation,
+                EndLocation = r.EndLocation,
+                Fare = r.Fare,
+                PickupLocation = r.PickupLocation
+            });
+        }
+
+        public async Task<IEnumerable<TaxiRouteResponseDto>> SearchRoutesAsync(string destination)
+        {
+            var routes = await _repository.FindAllAsync(
+                r => r.EndLocation.ToLower().Contains(destination.ToLower()) ||
+                     r.StartLocation.ToLower().Contains(destination.ToLower()));
+
+            return routes.Select(r => new TaxiRouteResponseDto
+            {
+                TaxiRouteId = r.TaxiRouteId,
+                StartLocation = r.StartLocation,
+                EndLocation = r.EndLocation,
+                Fare = r.Fare,
+                PickupLocation = r.PickupLocation
+            });
+        }
 
         public async Task<bool> UpdateAsync(int id, TaxiRouteCreateDto dto)
         {
@@ -82,6 +135,8 @@ namespace Adingisa.Services
 
             route.StartLocation = dto.StartLocation;
             route.EndLocation = dto.EndLocation;
+            route.Fare = dto.Fare;
+            route.PickupLocation = dto.PickupLocation;
 
             _repository.Update(route);
             await _repository.SaveAsync();

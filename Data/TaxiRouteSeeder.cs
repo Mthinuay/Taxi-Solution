@@ -14,7 +14,7 @@ namespace Adingisa.Data
     // Custom converter to handle currency symbols in the CSV file
     public class CustomDecimalConverter : DecimalConverter
     {
-        public override object ConvertFromString(string text, IReaderRow row, MemberMapData memberMapData)
+        public override object ConvertFromString(string? text, IReaderRow row, MemberMapData memberMapData)
         {
             if (string.IsNullOrWhiteSpace(text))
             {
@@ -29,11 +29,12 @@ namespace Adingisa.Data
 
             try
             {
-                return base.ConvertFromString(text, row, memberMapData);
+                return base.ConvertFromString(text, row, memberMapData) ?? 0m;
             }
             catch (FormatException ex)
             {
-                throw new FormatException($"Invalid decimal format in CSV for value '{text}' at row {row.Context.Parser.Row}", ex);
+                var rowInfo = (row.Context != null && row.Context.Parser != null) ? row.Context.Parser.Row.ToString() : "unknown";
+                throw new FormatException($"Invalid decimal format in CSV for value '{text}' at row {rowInfo}", ex);
             }
         }
     }
@@ -88,7 +89,14 @@ namespace Adingisa.Data
                 int addedRecords = 0;
                 foreach (var record in records)
                 {
-                    rowNumber = csv.Context.Parser.Row;
+                    if (csv.Context?.Parser != null)
+                    {
+                        rowNumber = csv.Context.Parser.Row;
+                    }
+                    else
+                    {
+                        rowNumber = -1;
+                    }
                     if (string.IsNullOrWhiteSpace(record.StartLocation) || string.IsNullOrWhiteSpace(record.EndLocation))
                     {
                         Console.WriteLine($"Skipping invalid record at row {rowNumber}: StartLocation or EndLocation is empty.");

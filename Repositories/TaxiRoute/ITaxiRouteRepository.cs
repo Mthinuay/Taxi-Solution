@@ -16,5 +16,7 @@ namespace Adingisa.Repositories.Interfaces
         Task SaveAsync();
 
         Task<TaxiRoute?> FindAsync(Expression<Func<TaxiRoute, bool>> predicate);
+        Task<IEnumerable<TaxiRoute>> FindAllAsync(Expression<Func<TaxiRoute, bool>> predicate);
+      
     }
 }
