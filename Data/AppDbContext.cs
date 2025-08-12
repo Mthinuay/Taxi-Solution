@@ -15,7 +15,7 @@ namespace Adingisa.Data
         public DbSet<Post> Posts { get; set; }
         public DbSet<Reply> Replies { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -56,6 +56,46 @@ namespace Adingisa.Data
                 new Role { RoleId = 1, RoleName = "Admin" },
                 new Role { RoleId = 2, RoleName = "User" }
             );
+
+            // TaxiRoute configuration
+            modelBuilder.Entity<TaxiRoute>(entity =>
+            {
+                entity.HasKey(tr => tr.TaxiRouteId);
+
+                entity.Property(tr => tr.StartLocation)
+                      .IsRequired()
+                      .HasMaxLength(200);
+
+                entity.Property(tr => tr.EndLocation)
+                      .IsRequired()
+                      .HasMaxLength(200);
+
+                entity.Property(tr => tr.Fare)
+                      .HasColumnType("decimal(10,2)");
+
+                entity.Property(tr => tr.PickupLocation)
+                      .HasMaxLength(200);
+
+                // One-to-many relationship: TaxiRoute → Comments
+                entity.HasMany(tr => tr.Comments)
+                      .WithOne(c => c.TaxiRoute)
+                      .HasForeignKey(c => c.TaxiRouteId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            // Comment configuration
+            modelBuilder.Entity<Comment>(entity =>
+            {
+                entity.HasKey(c => c.CommentId);
+
+                entity.Property(c => c.Content)
+                      .IsRequired()
+                      .HasMaxLength(1000);
+
+                entity.Property(c => c.CreatedAt)
+                      .HasDefaultValueSql("GETDATE()");
+            });
+
         }
     }
 }

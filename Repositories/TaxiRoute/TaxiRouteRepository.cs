@@ -3,6 +3,8 @@ using Adingisa.Data;
 using Adingisa.Models;
 using Adingisa.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
+
 
 namespace Adingisa.Repositories
 {
@@ -44,5 +46,10 @@ namespace Adingisa.Repositories
         {
             await _context.SaveChangesAsync();
         }
+        public async Task<TaxiRoute?> FindAsync(Expression<Func<TaxiRoute, bool>> predicate)
+{
+    return await _context.TaxiRoutes.FirstOrDefaultAsync(predicate);
+}
+
     }
 }

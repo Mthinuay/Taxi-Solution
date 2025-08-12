@@ -58,6 +58,23 @@ namespace Adingisa.Services
             };
         }
 
+        public async Task<TaxiRouteResponseDto?> SearchByDestinationAsync(string destination)
+{
+    var route = await _repository
+        .FindAsync(r => r.EndLocation.ToLower() == destination.ToLower());
+
+    if (route == null) return null;
+
+    return new TaxiRouteResponseDto
+    {
+        TaxiRouteId = route.TaxiRouteId,
+        StartLocation = route.StartLocation,
+        EndLocation = route.EndLocation,
+        Fare = route.Fare,
+        PickupLocation = route.PickupLocation
+    };
+}
+
         public async Task<bool> UpdateAsync(int id, TaxiRouteCreateDto dto)
         {
             var route = await _repository.GetByIdAsync(id);

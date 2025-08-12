@@ -4,6 +4,7 @@ using Adingisa.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Adingisa.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250811100602_SeedTaxiRoutes")]
+    partial class SeedTaxiRoutes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,13 +35,10 @@ namespace Adingisa.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("ReplyId")
                         .HasColumnType("int");
@@ -234,20 +234,17 @@ namespace Adingisa.Migrations
 
                     b.Property<string>("EndLocation")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Fare")
-                        .HasColumnType("decimal(10,2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("PickupLocation")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StartLocation")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("TaxiLocationId")
                         .HasColumnType("int");
@@ -257,6 +254,32 @@ namespace Adingisa.Migrations
                     b.HasIndex("TaxiLocationId");
 
                     b.ToTable("TaxiRoutes");
+
+                    b.HasData(
+                        new
+                        {
+                            TaxiRouteId = 1,
+                            EndLocation = "Pretoria",
+                            Fare = 60m,
+                            PickupLocation = "MTN Rank Stand 2",
+                            StartLocation = "MTN Noord Rank"
+                        },
+                        new
+                        {
+                            TaxiRouteId = 2,
+                            EndLocation = "Rustenburg",
+                            Fare = 210m,
+                            PickupLocation = "Bosman Station Stand 5",
+                            StartLocation = "Bosman Station"
+                        },
+                        new
+                        {
+                            TaxiRouteId = 3,
+                            EndLocation = "Randburg",
+                            Fare = 18m,
+                            PickupLocation = "Noord Rank Stand 10",
+                            StartLocation = "Noord Rank Stand 10"
+                        });
                 });
 
             modelBuilder.Entity("Adingisa.Models.Comment", b =>
@@ -267,8 +290,7 @@ namespace Adingisa.Migrations
 
                     b.HasOne("TaxiRoute", "TaxiRoute")
                         .WithMany("Comments")
-                        .HasForeignKey("TaxiRouteId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("TaxiRouteId");
 
                     b.HasOne("Adingisa.Models.User", "User")
                         .WithMany()

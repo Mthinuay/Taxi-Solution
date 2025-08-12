@@ -10,5 +10,6 @@ namespace Adingisa.Services.Interfaces
         Task<TaxiRouteResponseDto> CreateAsync(TaxiRouteCreateDto dto);
         Task<bool> UpdateAsync(int id, TaxiRouteCreateDto dto);
         Task<bool> DeleteAsync(int id);
+        Task<TaxiRouteResponseDto?> SearchByDestinationAsync(string destination);
     }
 }
